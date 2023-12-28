@@ -1,0 +1,25 @@
+{
+    "name": "dev",
+    "image": "mcr.microsoft.com/devcontainers/python:3.12",
+    "postCreateCommand": "virtualenv venv",
+    "postStartCommand": "source venv/bin/python && pip install -r requirements.txt",
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "python.terminal.activateEnvInCurrentTerminal": true,
+                "python.defaultInterpreterPath": ".venv/bin/python"
+            }
+        }
+    },
+    "portsAttributes": {
+        "5000": {
+            "label": "App",
+            "onAutoForward": "openBrowserOnce"
+        }
+    },
+    "containerEnv": {
+        // "DATABASE_URL": "postgresql://<USERNAME>:<PASSWORD>@<HOST>:<PORT>/<DATABASE>" // For PostgreSQL
+        "DATABASE_URL": "sqlite:///db.sqlite3", // For SQLite
+        "SECRET_KEY": "65cf82f90786c23d398375ac15951c96"
+    }
+}

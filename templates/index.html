@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/simpledotcss/simple.min.css" />
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.png') }}" type="image/x-icon">
+    <title>Todo App</title>
+</head>
+
+<body style="text-align: center;">
+    <h1>Todo App</h1>
+    <form method="POST">
+        <input type="text" name="title" id="title" placeholder="Title" tabindex="1" required />
+        <input type="text" name="description" id="description" placeholder="Description" tabindex="2" required />
+        <input type="submit" tabindex="3" value="Add" />
+        <input type="reset" tabindex="4" value="Clear" />
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Created At</th>
+                <th>Completed</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for todo in todos %}
+            <tr {% if todo.done==True %} style="text-decoration: line-through; color: #777777;" {% endif %}>
+                <td>{{ todo.title.title() }}</td>
+                <td>{{ todo.description }}</td>
+                <td>{{ todo.created_at }}</td>
+                <td>
+                    <input onchange="markDone('{{ todo.id }}')" type="checkbox" id="{{ todo.id }}"
+                    {% if todo.done==True %} checked {% endif %} />
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <script>
+        const markDone = (id) => {
+            const status = document.getElementById(id.toString()).checked
+            const currentRow = document.getElementById(id.toString()).parentElement.parentElement
+            if (status == true) {
+                currentRow.style.textDecoration = 'line-through';
+                currentRow.style.color = '#777777';
+            } else {
+                currentRow.style.textDecoration = 'none';
+                currentRow.style.color = '#dcdcdc';
+            }
+            fetch('/' + id + '/' + status.toString());
+        }
+    </script>
+</body>
+
+</html>
