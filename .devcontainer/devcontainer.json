@@ -2,7 +2,7 @@
     "name": "dev",
     "image": "mcr.microsoft.com/devcontainers/python:3.12",
     "postCreateCommand": "virtualenv venv",
-    "postStartCommand": "source venv/bin/python && pip install -r requirements.txt",
+    "postStartCommand": "source venv/bin/activate && pip install -r requirements.txt",
     "customizations": {
         "vscode": {
             "settings": {
